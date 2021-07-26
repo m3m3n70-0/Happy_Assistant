@@ -8,7 +8,7 @@
 import speech_recognition as sr
 import pyttsx3
 import pywhatkit
-
+from download_mp3 import *
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -31,7 +31,7 @@ def take_command():
             if "happy" in command:
                 command = command.replace("happy", "")
     except:
-       pass
+        pass
     return command
 
 
@@ -43,8 +43,23 @@ def run_happy():
         talk("playing " + song)
         pywhatkit.playonyt(song, use_api=True)
 
+    if "download" in command:
+        song = command.replace("download", "")
+        talk("downloading " + song)
+        video_search = VideosSearch(song, limit=1)
+        url = "https://www.youtube.com/watch?v=" + video_search.result()['result'][0]['id']
+        download_video(url)
+        video = pafy.new(url)
+        best = video.getbest()
+        media = vlc.MediaPlayer(best.url)
+        media.play()
+        print(url)
+
 
 run_happy()
+
+# "Play" lets you play a song on youtube
+# "Download" lets you download a song
 
 
 
