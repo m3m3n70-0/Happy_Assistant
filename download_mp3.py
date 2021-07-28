@@ -5,10 +5,6 @@
 # ██║░░██║██║░░██║██║░░░░░██║░░░░░░░░██║░░░
 # ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝░░░░░░░░╚═╝░░
 
-import speech_recognition as sr
-import pyttsx3
-import pywhatkit
-from youtubesearchpython import VideosSearch
 import vlc
 import pafy
 import youtube_dl
