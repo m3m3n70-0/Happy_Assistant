@@ -5,10 +5,12 @@
 # ██║░░██║██║░░██║██║░░░░░██║░░░░░░░░██║░░░
 # ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝░░░░░░░░╚═╝░░
 
+from download_mp3 import *
+
+from youtubesearchpython import VideosSearch
 import speech_recognition as sr
 import pyttsx3
 import pywhatkit
-from download_mp3 import *
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -28,8 +30,7 @@ def take_command():
             voice = listener.listen(source)
             command = listener.recognize_google(voice)
             command = command.lower()
-            if "happy" in command:
-                command = command.replace("happy", "")
+
     except:
         pass
     return command
@@ -38,22 +39,39 @@ def take_command():
 def run_happy():
     command = take_command()
     print(command)
-    if "play" in command:
-        song = command.replace("play", "")
-        talk("playing " + song)
-        pywhatkit.playonyt(song, use_api=True)
+    if "happy" in command:
+        command = command.replace("happy", "")
 
-    if "download" in command:
-        song = command.replace("download", "")
-        talk("downloading " + song)
-        video_search = VideosSearch(song, limit=1)
-        url = "https://www.youtube.com/watch?v=" + video_search.result()['result'][0]['id']
-        download_video(url)
-        video = pafy.new(url)
-        best = video.getbest()
-        media = vlc.MediaPlayer(best.url)
-        media.play()
-        print(url)
+        if "play" in command:
+            song = command.split("play", 1)[1]
+            print(song)
+            talk("playing " + song)
+            pywhatkit.playonyt(song, use_api=True)
+
+        if "download" in command:
+            song = command.split("download", 1)[1]
+            talk("downloading " + song)
+            video_search = VideosSearch(song, limit=1)
+            url = "https://www.youtube.com/watch?v=" + video_search.result()['result'][0]['id']
+            download_video(url)
+            video = pafy.new(url)
+            best = video.getbest()
+            media = vlc.MediaPlayer(best.url)
+            media.play()
+            print(url)
+
+    else:
+        print("you need to use the wake word 'happy'")
+        talk("you need to use the wake word happy")
+        run_happy()
+
+
+# def confirm_done():
+#     talk("can i help with anything else")
+#     print("Can I help with anything else?")
+#     command = take_command()
+#     if "yes" in command:
+#         run_happy()
 
 
 run_happy()
