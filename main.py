@@ -11,6 +11,9 @@ from youtubesearchpython import VideosSearch
 import speech_recognition as sr
 import pyttsx3
 import pywhatkit
+import datetime
+import wikipedia
+import qrcode
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -27,6 +30,7 @@ def take_command():
     try:
         with sr.Microphone() as source:
             print("Listening...")
+            talk("Yes?")
             voice = listener.listen(source)
             command = listener.recognize_google(voice)
             command = command.lower()
@@ -48,7 +52,7 @@ def run_happy():
             talk("playing " + song)
             pywhatkit.playonyt(song, use_api=True)
 
-        if "download" in command:
+        elif "download" in command:
             song = command.split("download", 1)[1]
             talk("downloading " + song)
             video_search = VideosSearch(song, limit=1)
@@ -59,6 +63,30 @@ def run_happy():
             media = vlc.MediaPlayer(best.url)
             media.play()
             print(url)
+
+        elif "time" in command:
+            timea = datetime.datetime.now().strftime('%H:%M')
+            timeb = datetime.datetime.now().strftime('%I:%M:%p')
+            talk("the current time is " + timea + " that is " + timeb)
+
+        elif "wikipedia" in command:
+            search = command.split("wikipedia", 1)[1]
+            wikiResults = wikipedia.search(search)
+            result = wikiResults[0]
+            page = wikipedia.summary(result, 3, auto_suggest=False)
+            talk(page)
+
+        elif "qr code for" or "qr code for" in command:
+            qr_link = command.split("for", 1)[1]
+            video_search = VideosSearch(qr_link, limit=1)
+            input_data = "https://www.youtube.com/watch?v=" + video_search.result()['result'][0]['id']
+            qr = qrcode.QRCode(version=1, box_size=10, border=5)
+            qr.add_data(input_data)
+            qr.make(fit=True)
+            img = qr.make_image(fill='black', back_color='white')
+            talk("downloading qr code from " + qr_link)
+            img.save('youtube-qr.png')
+            return talk("download complete")
 
     else:
         print("you need to use the wake word 'happy'")
