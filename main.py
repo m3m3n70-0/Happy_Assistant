@@ -20,6 +20,8 @@ engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
 
+qr_code_commands = ["one", "two", "three"]
+
 
 def talk(text):
     engine.say(text)
@@ -69,14 +71,15 @@ def run_happy():
             timeb = datetime.datetime.now().strftime('%I:%M:%p')
             talk("the current time is " + timea + " that is " + timeb)
 
-        elif "wikipedia" in command:
-            search = command.split("wikipedia", 1)[1]
-            wikiResults = wikipedia.search(search)
-            result = wikiResults[0]
+        elif "wikipedia" in command or "who is" in command or "what is" in command:
+            search = command.split("wikipedia" and "who is" and "what is", 1)[1]
+            print(search)
+            wiki_results = wikipedia.search(search)
+            result = wiki_results[0]
             page = wikipedia.summary(result, 3, auto_suggest=False)
             talk(page)
 
-        elif "qr code for" or "qr code for" in command:
+        elif "qr code for" in command or "qr codes for" in command:
             qr_link = command.split("for", 1)[1]
             video_search = VideosSearch(qr_link, limit=1)
             input_data = "https://www.youtube.com/watch?v=" + video_search.result()['result'][0]['id']
@@ -87,6 +90,12 @@ def run_happy():
             talk("downloading qr code from " + qr_link)
             img.save('youtube-qr.png')
             return talk("download complete")
+
+        elif "search" in command:
+            search = command.split("search", 1)[1]
+            search_result = search
+            pywhatkit.search(search_result)
+            talk("searching " + search)
 
     else:
         print("you need to use the wake word 'happy'")
