@@ -6,6 +6,7 @@
 # ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝░░░░░░░░╚═╝░░
 
 from download_mp3 import *
+from calculator import *
 
 from youtubesearchpython import VideosSearch
 import speech_recognition as sr
@@ -97,6 +98,27 @@ def run_happy():
             pywhatkit.search(search_result)
             talk("searching " + search)
 
+        elif "calculate" in command:
+            tekst = command
+            number1 = [int(word) for word in tekst.split() if word.isdigit()][0]
+            number2 = [int(word) for word in tekst.split() if word.isdigit()][1]
+
+            if "add" in command or "+" in command:
+                print("that is " + add(number1, number2))
+                talk("that is " + add(number1, number2))
+
+            elif "subtract" in command or "-" in command:
+                print("that is " + subtract(number1, number2))
+                talk("that is " + subtract(number1, number2))
+
+            elif "multiply" in command or "*" in command:
+                print("that is " + multiply(number1, number2))
+                talk("that is " + multiply(number1, number2))
+
+            elif "divide" in command or "/" in command:
+                print("that is " + divide(number1, number2))
+                talk("that is " + divide(number1, number2))
+
     else:
         print("you need to use the wake word 'happy'")
         talk("you need to use the wake word happy")
@@ -115,6 +137,3 @@ run_happy()
 
 # "Play" lets you play a song on youtube
 # "Download" lets you download a song
-
-
-
