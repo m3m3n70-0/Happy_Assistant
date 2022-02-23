@@ -119,6 +119,8 @@ def run_happy():
                 print("that is " + divide(number1, number2))
                 talk("that is " + divide(number1, number2))
 
+        # elif "how are you?" in command:
+
     else:
         print("you need to use the wake word 'happy'")
         talk("you need to use the wake word happy")
