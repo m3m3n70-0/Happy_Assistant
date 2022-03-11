@@ -5,8 +5,8 @@
 # ██║░░██║██║░░██║██║░░░░░██║░░░░░░░░██║░░░
 # ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝░░░░░░░░╚═╝░░
 
-from download_mp3 import *
-from calculator import *
+from lib.modules.download_mp3 import *
+from lib.modules.calculator import *
 
 from youtubesearchpython import VideosSearch
 import speech_recognition as sr
@@ -89,7 +89,7 @@ def run_happy():
             qr.make(fit=True)
             img = qr.make_image(fill='black', back_color='white')
             talk("downloading qr code from " + qr_link)
-            img.save('youtube-qr.png')
+            img.save('docs/youtube-qr.png')
             return talk("download complete")
 
         elif "search" in command:
