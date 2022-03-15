@@ -5,3 +5,6 @@ pafy==0.5.5
 pyttsx3==2.90
 pywhatkit==5.3
 youtube_dl==2021.12.17
+youtube-search-python==1.6.2
+python-vlc==3.0.16120
+
